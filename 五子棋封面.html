@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="棋.ico"/>
+  <title>五子棋</title>
+  <style>
+    div{
+      position: relative;
+      width: 450px;
+      height: 600px;
+      margin: auto;
+      background: url("五子棋.jpg") no-repeat center center ;
+      background-size: contain;
+    }
+
+    select{
+      position: absolute;
+      bottom: 100px;
+      left: 165px;
+      width: 120px;
+      height: 30px;
+      border-radius: 10px;
+      text-align: center;
+      background-color: #ffffcd;
+    }
+
+    button{
+      position: absolute;
+      bottom: 50px;
+      left: 175px;
+      width: 100px;
+      height: 30px;
+      border-radius: 10px;
+      text-align: center;
+      background-color: #ffffcd;
+    }
+  </style>
+</head>
+
+
+
+
+
+<body>
+  <div>
+
+    <select>
+      <option>---请选择模式---</option>
+      <option>双人对战</option>
+      <option>solo电脑</option>
+    </select>
+
+    <button>开始游戏</button>
+  </div>
+</body>
+
+
+
+
+
+<script>
+  document.querySelector('button').addEventListener('click',function(){
+    if(document.querySelector('select').value==="双人对战")
+    {
+      location.href = "双人对战.html";
+    }
+    if (document.querySelector('select').value==="solo电脑")
+    {
+      location.href = "solo电脑.html";
+    }
+    if(document.querySelector('select').value === "---请选择模式---")
+    {
+      alert("请选择游戏模式")
+    }
+  })
+
+
+
+  document.onkeydown = function () {
+      var e = window.event || arguments[0];
+      //屏蔽F12
+      if (e.keyCode == 123) {
+
+        return false;
+        //屏蔽Ctrl+Shift+I
+      } else if ((e.ctrlKey) && (e.shiftKey) && (e.keyCode == 73)) {
+
+        return false;
+        //屏蔽Shift+F10
+      } else if ((e.shiftKey) && (e.keyCode == 121)) {
+        return false;
+      }
+    };
+    // 屏蔽右键单击
+    document.oncontextmenu = function () {
+      return false;
+    }
+</script>
+</html>

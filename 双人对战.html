@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>双人对战</title>
+  <link rel="shortcut icon" href="棋.ico" />
+  <style>
+    .title {
+      margin: auto;
+      width: 500px;
+      height: 30px;
+      text-align: center;
+      line-height: 30px;
+      font-size: 18px;
+    }
+
+    .condition {
+      margin: auto;
+      width: 500px;
+      height: 20px;
+      text-align: center;
+      line-height: 30px;
+    }
+
+    .chess {
+      display: block;
+      margin: 10px auto;
+      box-shadow: 0 0 10px #b9b9b9;
+      background-color: #ffffcd;
+    }
+
+    .restart {
+      margin: 20px auto;
+      width: 80px;
+      height: 30px;
+      text-align: center;
+      line-height: 30px;
+      background-color: #3dbff6;
+      border-radius: 10%;
+      cursor: pointer;
+      color: white;
+    }
+  </style>
+</head>
+
+
+
+
+
+<body>
+  <div class="title">------------------打爆对面！！！------------------</div>
+  <div class="condition"></div>
+  <canvas width="450px" height="450px" class="chess"></canvas>
+  <div class="restart">重新开始</div>
+</body>
+
+
+
+
+
+<script>
+  const chess = document.querySelector(".chess")  //获取canvas画布
+  const context = chess.getContext("2d")          //获取画布的2d画面，context为画笔
+  context.strokeStyle = "black"                   //棋盘线的颜色为黑色
+  window.onload = function () { drawChessBoard() }  //页面加载完成后调用划线函数
+  function drawChessBoard() //棋盘划线函数
+  {
+    for (let i = 0; i < 15; i++) {
+      //先划横线
+      context.moveTo(15, 15 + i * 30)  //画横线起始点
+      context.lineTo(435, 15 + i * 30) //画横线终点
+      context.stroke()  //连接两点
+      //再画竖线
+      context.moveTo(15 + i * 30, 15)  //画竖线起始点
+      context.lineTo(15 + i * 30, 435)  //画竖线终点
+      context.stroke()
+    }
+  }
+
+
+
+  //设置胜利数组
+  let wins = []
+  for (let i = 0; i < 15; i++) {
+    wins[i] = []
+    for (let j = 0; j < 15; j++) {
+      wins[i][j] = []
+    }
+  }
+  //统计横线胜利算法
+  let count = 0   //胜利情况的编号
+  for (let i = 0; i < 15; i++) {
+    for (let j = 0; j < 11; j++) {
+      for (let k = 0; k < 5; k++) {
+        wins[j + k][i][count] = true
+      }
+      count++
+    }
+  }
+  //统计竖线胜利算法
+  for (let i = 0; i < 15; i++) {
+    for (let j = 0; j < 11; j++) {
+      for (let k = 0; k < 5; k++) {
+        wins[i][j + k][count] = true
+      }
+      count++
+    }
+  }
+  //统计正斜线胜利算法
+  for (let i = 0; i < 11; i++) {
+    for (let j = 0; j < 11; j++) {
+      for (let k = 0; k < 5; k++) {
+        wins[i + k][j + k][count] = true
+      }
+      count++
+    }
+  }
+  //统计反斜线胜利算法
+  for (let i = 0; i < 11; i++) {
+    for (let j = 14; j > 3; j--) {
+      for (let k = 0; k < 5; k++) {
+        wins[i + k][j - k][count] = true
+      }
+      count++
+    }
+  }
+
+
+
+  //定义二维数组标记棋盘上的每个坐标是否已经下了棋子
+  const chessboard = []
+  for (let i = 0; i < 15; i++) {
+    chessboard[i] = []
+    for (let j = 0; j < 15; j++) {
+      chessboard[i][j] = 0;
+    }
+  }
+  //开始下棋
+  let me = true    //标记人是否可用下棋
+  let over = false  //标记游戏是否结束
+  let p1Win = []    //记录用户在胜利情况下的分值
+  let p2Win = []  //记录计算机在胜利情况下的分值
+  for (let i = 0; i < count; i++) {
+    p1Win[i] = 0
+    p2Win[i] = 0
+  }
+  chess.onclick = function (e) {
+    if (over)  //判断游戏是否结束
+    {
+      return
+    }
+    let x = e.offsetX
+    let y = e.offsetY
+    let i = Math.floor(x / 30)    //根据鼠标点击坐标放置棋子的x坐标
+    let j = Math.floor(y / 30)    //根据鼠标点击坐标放置棋子的y坐标
+    if (chessboard[i][j] == 0)    //该坐标没有棋子则可下棋
+    {
+      chessboard[i][j] = 1       //标记该点已经落子
+      oneStep(i, j, me)
+      for (let k = 0; k < count; k++) {
+        if (wins[i][j][k]) {
+          if(me)
+          {
+            p1Win[k]++
+            if (p1Win[k] == 5) {
+              document.querySelector(".condition").innerHTML = "恭喜黑方玩家获胜了"
+              over = true
+            }
+          }
+          else
+          {
+            p2Win[k]++
+            if (p2Win[k] == 5) {
+              document.querySelector(".condition").innerHTML = "恭喜红方玩家获胜了"
+              over = true
+            }
+          }
+        }
+      }
+    }
+    else {
+      return
+    }
+    if (!over)   //如果游戏未结束
+    {
+      me = !me
+    }
+  }
+
+
+
+  //用户落子方法
+  function oneStep(i, j, me) {
+    context.beginPath()   //起笔
+    context.arc(15 + i * 30, 15 + j * 30, 10, 0, 2 * Math.PI);  //棋子参数
+    context.closePath()    //落笔
+    let color
+    if (me) {
+      color = "black"
+    }
+    else {
+      color = "red"
+    }
+    context.fillStyle = color   //画笔填充颜色
+    context.fill()
+  }
+
+
+
+  //点击重新开始刷新
+  document.querySelector(".restart").addEventListener('click', function () {
+    window.location.reload()
+  })
+
+
+  document.onkeydown = function () {
+      var e = window.event || arguments[0];
+      //屏蔽F12
+      if (e.keyCode == 123) {
+
+        return false;
+        //屏蔽Ctrl+Shift+I
+      } else if ((e.ctrlKey) && (e.shiftKey) && (e.keyCode == 73)) {
+
+        return false;
+        //屏蔽Shift+F10
+      } else if ((e.shiftKey) && (e.keyCode == 121)) {
+        return false;
+      }
+    };
+    // 屏蔽右键单击
+    document.oncontextmenu = function () {
+      return false;
+    }
+</script>
+
+</html>

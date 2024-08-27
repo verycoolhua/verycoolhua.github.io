@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>华哥的项目小仓库</title>
+  <link rel="shortcut icon" href="../华.ico" />
+  <link rel="stylesheet" href="./css/style.css">
+
+</head>
+<body>
+<div class="overlay">
+</div>
+
+<div class="card">
+  <div class="glare-container" align="center">
+    项目名称：我爱金币<br><br>
+    项目所属：C++/Qt<br><br>
+    项目链接：<a href="../mysetup.exe">下载</a><br><br>
+    备注：请在Windows系统中运行<br><br>
+    <div class="glare">
+    </div>
+  </div>
+</div>
+
+<div class="card card-1">
+  <div class="glare-container"  align="center">
+    项目名称：即刻五子棋<br><br>
+    项目所属：前端<br><br>
+    项目链接：<a href="../五子棋封面.html">进入</a><br><br>
+    备注：建议在pc端浏览器运行<br><br>
+    <div class="glare">
+    </div>
+  </div>
+</div>
+
+<div class="card card-2">
+  <div class="glare-container"   align="center">
+    项目名称：我爱金币<br><br>
+    项目所属：C++/Qt<br><br>
+    项目链接：<a href="../我爱金币.exe">免安装下载</a><br><br>
+    备注：请在Windows系统中运行<br><br>
+    <div class="glare">
+    </div>
+  </div>
+</div>
+
+
+  <script src='./js/jquery-3.6.0.min.js'></script>
+  <script  src="./js/script.js"></script>
+  <script>
+    document.onkeydown = function () {
+        var e = window.event || arguments[0];
+        //屏蔽F12
+        if (e.keyCode == 123) {
+
+          return false;
+          //屏蔽Ctrl+Shift+I
+        } else if ((e.ctrlKey) && (e.shiftKey) && (e.keyCode == 73)) {
+
+          return false;
+          //屏蔽Shift+F10
+        } else if ((e.shiftKey) && (e.keyCode == 121)) {
+          return false;
+        }
+      };
+      // 屏蔽右键单击
+      document.oncontextmenu = function () {
+        return false;
+      }
+  </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>进入中</title>
+  <link rel="shortcut icon" href="../华.ico" />
+	<link rel="stylesheet" type="text/css" href="assets/css/base.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/demo.css" />
+</head>
+<body>
+    <section id="ci-particles">
+      <canvas id="canvas"></canvas>
+      <h1 id="headline">3秒后进入</h1>
+    </section>   
+	
+	<script src="assets/js/demo.js"></script>
+  <script>
+    setTimeout(() => {
+      location.href = "../仓库/仓库.html";
+    }, 8000);
+
+    document.onkeydown = function () {
+        var e = window.event || arguments[0];
+        //屏蔽F12
+        if (e.keyCode == 123) {
+
+          return false;
+          //屏蔽Ctrl+Shift+I
+        } else if ((e.ctrlKey) && (e.shiftKey) && (e.keyCode == 73)) {
+
+          return false;
+          //屏蔽Shift+F10
+        } else if ((e.shiftKey) && (e.keyCode == 121)) {
+          return false;
+        }
+      };
+      // 屏蔽右键单击
+      document.oncontextmenu = function () {
+        return false;
+      }
+  </script>
+</body>
+</html>
